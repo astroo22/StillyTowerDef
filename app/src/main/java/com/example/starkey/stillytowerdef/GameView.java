@@ -4,41 +4,57 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.MotionEvent;
+
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
+
     public GameView(Context context) {
-    super(context);
-    getHolder().addCallback(this);
-    thread = new MainThread(getHolder(), this);
-    setFocusable(true);
+        super(context);
+        getHolder().addCallback(this);
+        thread = new MainThread(getHolder(), this);
+        setFocusable(true);
     }
+
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
     }
+
     @Override
-    public void surfaceCreated(SurfaceHolder holder){
+    public void surfaceCreated(SurfaceHolder holder) {
+        thread = new MainThread(getHolder(), this);
         thread.setRunning(true);
         thread.start();
     }
+
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder){
+    public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
-        while(retry) {
+        while (true) {
             try {
                 thread.setRunning(false);
                 thread.join();
-            } catch(InterruptedException e) {
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             retry = false;
         }
     }
-    public void update(){
-    }
+
     @Override
-    public void draw(Canvas canvas){
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
+    }
+
+    public void update()
+    {
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
         super.draw(canvas);
     }
 }
