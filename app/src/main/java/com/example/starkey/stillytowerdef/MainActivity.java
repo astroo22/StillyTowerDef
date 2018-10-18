@@ -11,6 +11,12 @@ import android.view.WindowManager;
 
 
 public class MainActivity extends Activity {
+    GameView zombietest;
+
+    public MainActivity()
+    {
+        zombietest.spawnZombie();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -41,5 +47,6 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(new GameView(this));
+
     }
 }
