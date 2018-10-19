@@ -44,7 +44,7 @@ public class Zombie implements GameObject
     public void update(Point point)
     {
         //left, top, right, bottom
-        zombie.set(point.x - zombie.width()/2, point.y - zombie.height(), point.x + zombie.width()/2, point.y + zombie.height()/2);
+        zombie.set(point.x - zombie.width()/2, point.y - zombie.height()/2, point.x + zombie.width()/2, point.y + zombie.height()/2);
 
     }
 
