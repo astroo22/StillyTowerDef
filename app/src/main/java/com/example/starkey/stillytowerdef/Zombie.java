@@ -12,7 +12,8 @@ public class Zombie implements GameObject
    private int damage;
    private int health;
    private int speed;
-   private int color; // test color
+   private int color;
+   private boolean alive;// test color
    //private Image zombieAnimation1;
 
 
@@ -43,7 +44,7 @@ public class Zombie implements GameObject
     public void update(Point point)
     {
         //left, top, right, bottom
-        zombie.set(point.x - zombie.width()/2, point.y - zombie.height(), point.x + zombie.width()/2, point.y + zombie.height()/2 );
+        zombie.set(point.x - zombie.width()/2, point.y - zombie.height(), point.x + zombie.width()/2, point.y + zombie.height()/2);
 
     }
 

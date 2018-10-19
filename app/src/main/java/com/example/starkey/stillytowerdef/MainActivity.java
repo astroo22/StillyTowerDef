@@ -2,6 +2,7 @@ package com.example.starkey.stillytowerdef;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,12 +12,7 @@ import android.view.WindowManager;
 
 
 public class MainActivity extends Activity {
-    GameView zombietest;
 
-    public MainActivity()
-    {
-        zombietest.spawnZombie();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
