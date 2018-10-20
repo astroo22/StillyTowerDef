@@ -17,20 +17,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Zombie zombie;
     private Point zombiePoint;
+    private SpawnManager sm;
 
-    public void spawnZombie() {
+   /* public void spawnZombie() {
         zombie = new Zombie(new Rect(100, 100, 200, 200), Color.rgb(255, 0, 0));
         zombiePoint = new Point(150, 150);
         //update();
         //return zombie;
-    }
+    }*/
 
 
     public GameView(Context context) {
         super(context);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
-        spawnZombie();
+       // spawnZombie();
+        sm = new SpawnManager();
         setFocusable(true);
     }
 
@@ -61,7 +63,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             retry = false;
         }
     }
-
+    //this is the code to grab a thing and move it
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -77,13 +79,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update()
     {
-        zombie.update(zombiePoint);
+      //  zombie.update(zombiePoint);
+        sm.update();
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         canvas.drawColor(Color.WHITE);
-        zombie.draw(canvas);
+       // zombie.draw(canvas);
+        sm.draw(canvas);
     }
 }

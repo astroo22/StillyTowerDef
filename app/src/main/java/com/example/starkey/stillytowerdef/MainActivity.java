@@ -48,6 +48,7 @@ public class MainActivity extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         Constants.SCREEN_WIDTH = dm.widthPixels;
         Constants.SCREEN_HEIGHT = dm.heightPixels;
+        //System.out.println("screen W: " + Constants.SCREEN_WIDTH + " Screen H: " + Constants.SCREEN_HEIGHT);
 
 
 

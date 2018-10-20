@@ -17,12 +17,13 @@ public class Zombie implements GameObject
    //private Image zombieAnimation1;
 
 
-    public Zombie(Rect zombie,int color)
+    public Zombie(int color, int left, int top, int right, int bottom)
     {
-        this.zombie = zombie;
+        //rect = left top right bottom
+        this.zombie = new Rect(left,top,right,bottom);
         this.damage = 15;
         this.health = 500;
-        this.speed = 1;
+        this.speed = 5;
         this.color = color;
     }
 
@@ -35,6 +36,16 @@ public class Zombie implements GameObject
         canvas.drawRect(zombie,paint);
 
     }
+    public int getSpeed()
+    {
+        return speed;
+    }
+
+    public void zombieMove()
+    {
+        zombie.top += speed;
+        zombie.bottom +=speed;
+    }
 
     @Override
     public void update()
@@ -43,8 +54,9 @@ public class Zombie implements GameObject
     }
     public void update(Point point)
     {
+        //helper function for defining box and and moving it around with mouse.
         //left, top, right, bottom
-        zombie.set(point.x - zombie.width()/2, point.y - zombie.height()/2, point.x + zombie.width()/2, point.y + zombie.height()/2);
+        //zombie.set(point.x - zombie.width()/2, point.y - zombie.height()/2, point.x + zombie.width()/2, point.y + zombie.height()/2);
 
     }
 
