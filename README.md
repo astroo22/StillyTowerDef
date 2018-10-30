@@ -14,7 +14,7 @@ Features we plan to include:
 * !The ability to upgrade structures.  
 * Leaderboard that updates scores from anybody who plays. 
 * Account based system that will allow you to pull your current game to a different device. 
-* At least 3 types of enemies to start. (Tank (slow but hits hard and high health), Zombie (medium stats all around), "Name debated atm"(Fast speed, low health)
+* At least 3 types of enemies to start. (Tank (slow but hits hard and high health), Zombie (medium stats all around), "Name debated atm"(Fast speed, Hits harder than zombie but less than tank, low health)
 * Game will have a basic menue.
 
 Current list of things in game:
