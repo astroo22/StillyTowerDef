@@ -4,11 +4,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.SystemClock;
 
+import com.example.starkey.stillytowerdef.Brute;
+import com.example.starkey.stillytowerdef.Constants;
+import com.example.starkey.stillytowerdef.Zombie;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class SpawnManager {
-
+    //ArrayAdapter ad ~~~~~~~~~~~~~~~~~~~~~do this look at to do
     private ArrayList<Zombie> zombies;
     private Zombie zombie;
     private ArrayList<Brute> brutes;
@@ -23,17 +27,15 @@ public class SpawnManager {
     public SpawnManager()
     {
 
-            startTime = System.currentTimeMillis();
-            zombies = new ArrayList<>();
-            brutes = new ArrayList<>();
+        startTime = System.currentTimeMillis();
+        zombies = new ArrayList<>();
+        brutes = new ArrayList<>();
         grunts = new ArrayList<>();
         walls = new ArrayList<>();
-        //Thread thread1 = new Thread();
-            //thread1(
-                    spawnZombies(5);
-                    spawnBrutes(3);
-                    spawnGrunts(7);
-                    spawnwalls(1);
+        spawnZombies(5);
+        spawnBrutes(3);
+        spawnGrunts(7);
+        spawnwalls(5);
 
     }
     //params will be the number of things to be spawned later
@@ -46,37 +48,17 @@ public class SpawnManager {
         for(int i=0;i<zombieNum;i++)
         {
             i1 = r.nextInt(max -1)+1;
-
-            //System.out.println("Random value: " + i1 + " Const SW: " + Constants.SCREEN_WIDTH + " xStart: " + xStart);
-            //System.out.print(xStart);
-            zombies.add(new Zombie(Color.GREEN, i1, i1, i1+ 100, i1 + 100));
+            //Look at splash for delayed handler handler
+            zombies.add(new Zombie(Color.GREEN, i1, 20, i1+ 100, 120));
 
         }
-            /*
-            Integer ii = 0;
-            float timer = System.currentTimeMillis();
-            double test = System.currentTimeMillis();
-            System.out.println(test);
-            //boolean test1 = true;
-            while(ii<=zombieNum)
-            {
-                double temp2 = System.currentTimeMillis();
-                if(temp2 > test)
-                {*/
 
-                    //test = System.currentTimeMillis()+ 2000;
-                    //ii++;
-                //}
-            //}
     }
     public void update()
     {
-        //int elapsedTime = (int)(System.currentTimeMillis() - startTime);
-        //startTime = System.currentTimeMillis();
-        //float speed = zombie.getSpeed();
         for(Zombie zomb : zombies)
         {
-           // if !zombie.istouching()
+            // if !zombie.istouching()
 
             zomb.zombieMove();
         }
@@ -126,10 +108,10 @@ public class SpawnManager {
 
             //System.out.println("Random value: " + i1 + " Const SW: " + Constants.SCREEN_WIDTH + " xStart: " + xStart);
             //System.out.print(xStart);
-            brutes.add(new Brute(Color.RED, i1, i1, i1 + 100, i1 + 100));
+            brutes.add(new Brute(Color.RED, i1, 20, i1+ 100, 120));
 
         }
-        }
+    }
 
     public void spawnGrunts(int gruntNum) {
         //Thread.sleep(mili);
@@ -141,7 +123,7 @@ public class SpawnManager {
 
             //System.out.println("Random value: " + i1 + " Const SW: " + Constants.SCREEN_WIDTH + " xStart: " + xStart);
             //System.out.print(xStart);
-            grunts.add(new grunt(Color.BLUE, i1, i1, i1 + 100, i1 + 100));
+            grunts.add(new grunt(Color.BLUE,i1, 20, i1+ 100, 120));
 
         }
     }
@@ -149,19 +131,22 @@ public class SpawnManager {
         //Thread.sleep(mili);
         Random r = new Random();
         int max = Constants.SCREEN_WIDTH - 10;
+        int temp = 0;
+        double bottom = Constants.SCREEN_HEIGHT - (Constants.SCREEN_HEIGHT*.25);
+        double location = Constants.SCREEN_HEIGHT*.07;
         int i1 = r.nextInt(max - 1) + 1;
         for (int i = 0; i < wallNum; i++) {
-            i1 = r.nextInt(max - 1) + 1;
+
 
             //System.out.println("Random value: " + i1 + " Const SW: " + Constants.SCREEN_WIDTH + " xStart: " + xStart);
             //System.out.print(xStart);
-            walls.add(new wall(Color.BLACK, 500, 500,  700,  700));
+            walls.add(new wall(Color.BLACK, temp, (int)bottom,  temp+300,  (int)(bottom + location)));
+            temp += 300;
 
         }
     }
 
-    }
-
+}
 
 
 

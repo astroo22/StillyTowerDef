@@ -13,12 +13,22 @@ public class wall implements GameObject {
     //private int health;
     //private int speed;
     private int color;
-    private boolean alive;// test color
+    private boolean alive;
+    public int top;
+    public int left;
+    public int right;
+    public int bottom;
+
+    // test color
 //private Image zombieAnimation1;
 
     public wall(int color, int left, int top, int right, int bottom)
     {
         //rect = left top right bottom
+        this.top = top;
+        this.left = left;
+        this.right = right;
+        this.bottom = bottom;
         this.wall = new Rect(left,top,right,bottom);
         //this.damage = 15;
         //this.health = 250;
@@ -35,16 +45,10 @@ public class wall implements GameObject {
         canvas.drawRect(wall,paint);
 
     }
-    /*public int getSpeed()
+    public int getTop()
     {
-        return speed;
-    }*/
-
-    /*public void gruntMove()
-    {
-        grunt.top += speed;
-        grunt.bottom +=speed;
-    }*/
+        return top;
+    }
 
     @Override
     public void update()

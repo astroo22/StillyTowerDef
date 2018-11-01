@@ -13,9 +13,8 @@ public class Zombie implements GameObject
    private int health;
    private int speed;
    private int color;
-   private boolean alive;// test color
-   //private Image zombieAnimation1;
-
+   private boolean alive;
+   SpawnManager sm;
 
     public Zombie(int color, int left, int top, int right, int bottom)
     {
@@ -43,9 +42,37 @@ public class Zombie implements GameObject
 
     public void zombieMove()
     {
+        //if(!closeToWall())
+        //{
+            //zombie.top += speed;
+            //zombie.bottom +=speed;
+            walkLeft();
+        //}
+
+    }
+    public void walkLeft()
+    {
+        zombie.left += speed;
+        zombie.right -= speed;
         zombie.top += speed;
         zombie.bottom +=speed;
     }
+
+
+    public void attack(wall thing)
+    {
+    ;
+    }
+  /*  public boolean closeToWall()
+    {
+        //for(int i = 0; i<sm.walls.size();i++) {
+
+           /* if (zombie.bottom == sm.walls[i])
+            {
+            }*/ // cant seem to pull the wall info from the array list hmmm
+//        }
+
+
 
     @Override
     public void update()
