@@ -8,31 +8,22 @@ import android.media.Image;
 
 public class wall implements GameObject {
 
-    private Rect wall;
-    // private int damage;
-    //private int health;
-    //private int speed;
+    public Rect wall;
     private int color;
-    private boolean alive;
+    public boolean alive;
     public int top;
     public int left;
     public int right;
     public int bottom;
 
-    // test color
-//private Image zombieAnimation1;
 
     public wall(int color, int left, int top, int right, int bottom)
     {
-        //rect = left top right bottom
         this.top = top;
         this.left = left;
         this.right = right;
         this.bottom = bottom;
         this.wall = new Rect(left,top,right,bottom);
-        //this.damage = 15;
-        //this.health = 250;
-        //this.speed = 7;
         this.color = color;
     }
 
@@ -57,9 +48,6 @@ public class wall implements GameObject {
     }
     public void update(Point point)
     {
-        //helper function for defining box and and moving it around with mouse.
-        //left, top, right, bottom
-        //zombie.set(point.x - zombie.width()/2, point.y - zombie.height()/2, point.x + zombie.width()/2, point.y + zombie.height()/2);
 
     }
 

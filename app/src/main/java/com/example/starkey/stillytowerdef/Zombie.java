@@ -9,6 +9,8 @@ import android.media.Image;
 public class Zombie implements GameObject
 {
    private Rect zombie;
+   private int currentPos;
+   private WayPoint wp;
    private int damage;
    private int health;
    private int speed;
@@ -19,6 +21,7 @@ public class Zombie implements GameObject
     public Zombie(int color, int left, int top, int right, int bottom)
     {
         //rect = left top right bottom
+        this.currentPos = (right -50);
         this.zombie = new Rect(left,top,right,bottom);
         this.damage = 15;
         this.health = 500;
@@ -42,18 +45,45 @@ public class Zombie implements GameObject
 
     public void zombieMove()
     {
-        //if(!closeToWall())
-        //{
-            //zombie.top += speed;
-            //zombie.bottom +=speed;
-            walkLeft();
-        //}
+        walk();
 
+    }
+    public void setWayPointTarget(WayPoint wp)
+    {
+        this.wp = wp;
+    }
+    public void walk()
+    {
+        if (wp.getWayPointX() != currentPos )
+        {
+            if(currentPos<wp.getWayPointX())
+            {
+                walkRight();
+            }
+            if(currentPos>wp.getWayPointX())
+            {
+                walkLeft();
+            }
+        }
+        else
+        {
+            zombie.top += speed;
+            zombie.bottom += speed;
+        }
+    }
+    public void walkRight()
+    {
+        zombie.left += speed - (speed/2);
+        zombie.right += speed- (speed/2);
+        currentPos += speed -(speed/2);
+        zombie.top += speed;
+        zombie.bottom +=speed;
     }
     public void walkLeft()
     {
-        zombie.left += speed;
-        zombie.right -= speed;
+        zombie.left -= speed - (speed/2);
+        zombie.right -= speed - (speed/2);
+        currentPos -= speed -(speed/2);
         zombie.top += speed;
         zombie.bottom +=speed;
     }

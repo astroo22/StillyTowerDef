@@ -64,7 +64,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
     //this is the code to grab a thing and move it
-    @Override
+   /* @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         switch (event.getAction()){
@@ -74,7 +74,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                // System.out.println("dis working?");
         }
         return true;
-    }
+    }*/
 
 
     public void update()

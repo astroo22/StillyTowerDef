@@ -10,6 +10,9 @@ import com.example.starkey.stillytowerdef.Zombie;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.math.*;
+
+import static java.lang.Math.abs;
 
 public class SpawnManager {
     //ArrayAdapter ad ~~~~~~~~~~~~~~~~~~~~~do this look at to do
@@ -21,7 +24,10 @@ public class SpawnManager {
     private grunt grunt;
     private ArrayList<wall> walls;
     private grunt wall;
+    public ArrayList<WayPoint> wps;
+    public WayPoint wp;
     private long startTime;
+
 
     //will have parameters of level and maybe other things later
     public SpawnManager()
@@ -32,33 +38,48 @@ public class SpawnManager {
         brutes = new ArrayList<>();
         grunts = new ArrayList<>();
         walls = new ArrayList<>();
-        spawnZombies(5);
-        spawnBrutes(3);
-        spawnGrunts(7);
+        wps = new ArrayList<>();
+        spawnZombies(1);
+        spawnBrutes(0);
+        spawnGrunts(0);
         spawnwalls(5);
 
     }
+    /* ~~~~~~~~~~~~~~~~~~~~~~this will be used DO NOT DELETE ~~~~~~~~~~~~~~~~~~~~~~
+    public WayPoint findWayPoint(int startLocation)
+    {
+        WayPoint tempPoint;
+        tempPoint = wps[0];
+        for(int i = 0;i<wps.size();i++)
+        {
+            if((abs(startLocation - wps[i].getX)) < (abs(startLocation - tempPoint.getWayPointX())))
+            {
+                tempPoint = wps[i];
+            }
+        }
+    }*/
     //params will be the number of things to be spawned later
     public void spawnZombies(int zombieNum)
     {
         //Thread.sleep(mili);
         Random r = new Random();
+        Zombie tempZombie;
         int max = Constants.SCREEN_WIDTH -10;
         int i1 = r.nextInt(max -1)+1;
         for(int i=0;i<zombieNum;i++)
         {
             i1 = r.nextInt(max -1)+1;
-            //Look at splash for delayed handler handler
-            zombies.add(new Zombie(Color.GREEN, i1, 20, i1+ 100, 120));
-
+            //~~~~~~~~~~~~~~~~~~~~ THIS IS A SINGLE EVENT FOR 1 ZOMBIE WE WILL DO THIS IN A LOOP LATER ~~~~~~~~~~~~~~~~
+            WayPoint somethingStupid = new WayPoint(700, 700);
+            tempZombie = new Zombie(Color.GREEN, i1, 20, i1+ 100, 120);
+            tempZombie.setWayPointTarget(somethingStupid);
+            zombies.add(tempZombie);
         }
-
     }
     public void update()
     {
         for(Zombie zomb : zombies)
         {
-            // if !zombie.istouching()
 
             zomb.zombieMove();
         }
@@ -130,18 +151,22 @@ public class SpawnManager {
     public void spawnwalls(int wallNum) {
         //Thread.sleep(mili);
         Random r = new Random();
-        int max = Constants.SCREEN_WIDTH - 10;
-        int temp = 0;
+        //int max = Constants.SCREEN_WIDTH - 10;
+        int leftSide = 0;
         double bottom = Constants.SCREEN_HEIGHT - (Constants.SCREEN_HEIGHT*.25);
         double location = Constants.SCREEN_HEIGHT*.07;
-        int i1 = r.nextInt(max - 1) + 1;
-        for (int i = 0; i < wallNum; i++) {
-
-
-            //System.out.println("Random value: " + i1 + " Const SW: " + Constants.SCREEN_WIDTH + " xStart: " + xStart);
-            //System.out.print(xStart);
-            walls.add(new wall(Color.BLACK, temp, (int)bottom,  temp+300,  (int)(bottom + location)));
-            temp += 300;
+        wall tempWall;
+        WayPoint tempWayPoint;
+        for (int i = 0; i < wallNum; i++)
+        {
+            tempWall = new wall(Color.BLACK, leftSide, (int)bottom,  leftSide+300,  (int)(bottom + location));
+            if(i % 2 == 1)
+            {
+                tempWayPoint = new WayPoint(leftSide, (int)bottom, tempWall);
+                wps.add(tempWayPoint);
+            }
+            walls.add(tempWall);
+            leftSide += 300;
 
         }
     }
