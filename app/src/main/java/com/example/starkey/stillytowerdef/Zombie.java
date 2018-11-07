@@ -17,6 +17,7 @@ public class Zombie implements GameObject
    private int color;
    private boolean alive;
    SpawnManager sm;
+   private boolean allowed2Move;
 
     public Zombie(int color, int left, int top, int right, int bottom)
     {
@@ -27,6 +28,7 @@ public class Zombie implements GameObject
         this.health = 500;
         this.speed = 5;
         this.color = color;
+        this.allowed2Move = true;
     }
 
 
@@ -45,8 +47,28 @@ public class Zombie implements GameObject
 
     public void zombieMove()
     {
-        walk();
-
+       // allow();
+        if (allowed2Move == true)
+        {
+            walk();
+        }
+       /* else
+        {
+            wall temp = wp.getWall();
+            temp.hit(damage);
+        }*/
+    }
+    public void allow()
+    {
+        if(currentPos >= (wp.getWayPointY()-50))
+        {
+            allowed2Move = false;
+        }
+        else
+        {
+            allowed2Move = true;
+            System.out.println(" I AM ALLOWED TO MOVE NOW ");
+        }
     }
     public void setWayPointTarget(WayPoint wp)
     {
@@ -54,22 +76,23 @@ public class Zombie implements GameObject
     }
     public void walk()
     {
-        if (wp.getWayPointX() != currentPos )
+        if(currentPos<wp.getWayPointX())
         {
-            if(currentPos<wp.getWayPointX())
-            {
-                walkRight();
-            }
-            if(currentPos>wp.getWayPointX())
-            {
-                walkLeft();
-            }
+            walkRight();
         }
-        else
+        if(currentPos>wp.getWayPointX())
         {
-            zombie.top += speed;
-            zombie.bottom += speed;
+            walkLeft();
         }
+        else {
+
+           zombie.top += speed;
+           zombie.bottom += speed;
+       }
+    }
+    public void stop()
+    {
+
     }
     public void walkRight()
     {
@@ -91,16 +114,9 @@ public class Zombie implements GameObject
 
     public void attack(wall thing)
     {
-    ;
+        thing.hit(damage);
     }
-  /*  public boolean closeToWall()
-    {
-        //for(int i = 0; i<sm.walls.size();i++) {
 
-           /* if (zombie.bottom == sm.walls[i])
-            {
-            }*/ // cant seem to pull the wall info from the array list hmmm
-//        }
 
 
 

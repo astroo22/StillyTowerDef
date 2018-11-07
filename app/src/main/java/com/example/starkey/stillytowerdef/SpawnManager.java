@@ -42,7 +42,7 @@ public class SpawnManager {
         spawnZombies(1);
         spawnBrutes(0);
         spawnGrunts(0);
-        spawnwalls(5);
+        spawnwalls(6);
 
     }
     /* ~~~~~~~~~~~~~~~~~~~~~~this will be used DO NOT DELETE ~~~~~~~~~~~~~~~~~~~~~~
@@ -159,14 +159,14 @@ public class SpawnManager {
         WayPoint tempWayPoint;
         for (int i = 0; i < wallNum; i++)
         {
-            tempWall = new wall(Color.BLACK, leftSide, (int)bottom,  leftSide+300,  (int)(bottom + location));
+            tempWall = new wall(Color.BLACK, leftSide, (int)bottom,  leftSide+250,  (int)(bottom + location), i);
             if(i % 2 == 1)
             {
                 tempWayPoint = new WayPoint(leftSide, (int)bottom, tempWall);
                 wps.add(tempWayPoint);
             }
             walls.add(tempWall);
-            leftSide += 300;
+            leftSide += 250;
 
         }
     }

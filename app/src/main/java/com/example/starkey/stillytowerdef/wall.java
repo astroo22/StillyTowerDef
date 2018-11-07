@@ -15,9 +15,11 @@ public class wall implements GameObject {
     public int left;
     public int right;
     public int bottom;
+    public int ID;
+    public int health;
 
 
-    public wall(int color, int left, int top, int right, int bottom)
+    public wall(int color, int left, int top, int right, int bottom,int id)
     {
         this.top = top;
         this.left = left;
@@ -25,6 +27,9 @@ public class wall implements GameObject {
         this.bottom = bottom;
         this.wall = new Rect(left,top,right,bottom);
         this.color = color;
+        this.ID = id;
+        this.alive = true;
+        this.health = 300;
     }
 
 
@@ -40,7 +45,10 @@ public class wall implements GameObject {
     {
         return top;
     }
-
+    public void hit(int hitValue)
+    {
+        this.health = this.health - hitValue;
+    }
     @Override
     public void update()
     {

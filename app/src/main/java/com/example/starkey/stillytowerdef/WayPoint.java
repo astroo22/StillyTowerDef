@@ -11,7 +11,6 @@ public class WayPoint implements  GameObject {
         this.x = x;
         this.y = y;
         this.w = w;
-
     }
     public WayPoint(int x, int y)
     {
@@ -31,9 +30,14 @@ public class WayPoint implements  GameObject {
     public void draw(Canvas canvas) {
 
     }
+    public wall getWall()
+    {
+        return w;
+    }
 
     @Override
-    public void update() {
+    public void update()
+    {
 
     }
 }
