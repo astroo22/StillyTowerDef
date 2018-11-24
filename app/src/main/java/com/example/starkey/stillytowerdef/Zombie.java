@@ -10,23 +10,28 @@ public class Zombie implements GameObject
 {
    private Rect zombie;
    private int currentPos;
+   private int currentPosy;
    private WayPoint wp;
    private int damage;
    private int health;
    private int speed;
    private int color;
    private boolean alive;
-   SpawnManager sm;
+   public int left;
+   public int right;
 
     public Zombie(int color, int left, int top, int right, int bottom)
     {
         //rect = left top right bottom
         this.currentPos = (right -50);
+        this.currentPosy = bottom;
         this.zombie = new Rect(left,top,right,bottom);
         this.damage = 15;
         this.health = 500;
         this.speed = 5;
         this.color = color;
+        this.left = left;
+        this.right = right;
     }
 
 
@@ -65,27 +70,36 @@ public class Zombie implements GameObject
                 walkLeft();
             }
         }
-        else
+        if(currentPosy<wp.getWayPointY())
         {
+            //System.out.println(wp.getWayPointY());
+            //currentPos += speed;
             zombie.top += speed;
             zombie.bottom += speed;
+            currentPosy += speed;
+            //System.out.println(currentPosy);
         }
     }
     public void walkRight()
     {
         zombie.left += speed - (speed/2);
         zombie.right += speed- (speed/2);
-        currentPos += speed -(speed/2);
-        zombie.top += speed;
-        zombie.bottom +=speed;
+        //zombie.top += speed-(speed/2);
+        //zombie.bottom +=speed -(speed/2);
+        currentPosy = zombie.bottom;
+        currentPos = zombie.right -(zombie.right-zombie.left);
+       // left = zombie.left;
+       // right = zombie.right;
+
     }
     public void walkLeft()
     {
         zombie.left -= speed - (speed/2);
         zombie.right -= speed - (speed/2);
-        currentPos -= speed -(speed/2);
-        zombie.top += speed;
-        zombie.bottom +=speed;
+        //zombie.top += speed-(speed/2);
+        //zombie.bottom +=speed-(speed/2);
+        currentPosy = zombie.bottom;
+        currentPos = zombie.right -(zombie.right-zombie.left);
     }
 
 
