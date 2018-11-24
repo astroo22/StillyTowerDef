@@ -6,10 +6,6 @@ import android.graphics.Color;
 import android.os.SystemClock;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import com.example.starkey.stillytowerdef.Brute;
-import com.example.starkey.stillytowerdef.Constants;
-import com.example.starkey.stillytowerdef.Zombie;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -45,15 +41,13 @@ public class SpawnManager {
         grunts = new ArrayList<>();
         walls = new ArrayList<>();
         wps = new ArrayList<>();
-       // wpa = new ArrayAdapter<WayPoint>(this,tv,wps);
-        spawnwalls(6);
-        spawnZombies(5);
-        spawnBrutes(3);
-        spawnGrunts(5);
-
+        spawnZombies(1);
+        spawnBrutes(0);
+        spawnGrunts(0);
+        spawnwalls(5);
 
     }
-    // ~~~~~~~~~~~~~~~~~~~~~~this will be used DO NOT DELETE ~~~~~~~~~~~~~~~~~~~~~~
+    /* ~~~~~~~~~~~~~~~~~~~~~~this will be used DO NOT DELETE ~~~~~~~~~~~~~~~~~~~~~~*/
     public WayPoint findWayPoint(int startLocation)
     {
         Iterator<WayPoint> wpi = wps.iterator();
@@ -85,6 +79,7 @@ public class SpawnManager {
     //params will be the number of things to be spawned later
     public void spawnZombies(int zombieNum)
     {
+        //Thread.sleep(mili);
         Random r = new Random();
         Zombie tempZombie;
         int max = Constants.SCREEN_WIDTH -10;
@@ -98,7 +93,6 @@ public class SpawnManager {
             somethingStupid =  findWayPoint(i1+50);
             tempZombie.setWayPointTarget(somethingStupid);
             zombies.add(tempZombie);
-
         }
     }
     public void update()

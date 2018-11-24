@@ -105,7 +105,7 @@ public class Zombie implements GameObject
 
     public void attack(wall thing)
     {
-    ;
+        //thing.hit(damage);
     }
   /*  public boolean closeToWall()
     {
