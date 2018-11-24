@@ -177,7 +177,7 @@ public class SpawnManager {
         WayPoint tempWayPoint;
         for (int i = 0; i < wallNum; i++)
         {
-            tempWall = new wall(Color.BLACK, leftSide, (int)bottom,  leftSide+250,  (int)(bottom + location));
+            tempWall = new wall(Color.BLACK, leftSide, (int)bottom,  leftSide+250,  (int)(bottom + location), i);
             //System.out.println("Hit " +i);
             if(i == 1|| i == 3 || i== 2)
             {
