@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import java.math.*;
-
 import static java.lang.Math.abs;
 
 public class SpawnManager {
     //ArrayAdapter ad ~~~~~~~~~~~~~~~~~~~~~do this look at to do
-    private ArrayList<Zombie> zombies;
+    public ArrayList<Zombie> zombies;
     private TextView tv;
     private ArrayAdapter<Zombie> adapZomb;
     private Zombie zombie;
@@ -23,12 +22,13 @@ public class SpawnManager {
     private Brute brute;
     private ArrayList<grunt> grunts;
     private grunt grunt;
-    private ArrayList<wall> walls;
+    public ArrayList<wall> walls;
     private grunt wall;
     public ArrayList<WayPoint> wps;
     public ArrayAdapter<WayPoint> wpa;
     public WayPoint wp;
     private long startTime;
+    public int enemyCounter;
 
 
     //will have parameters of level and maybe other things later
@@ -41,13 +41,13 @@ public class SpawnManager {
         grunts = new ArrayList<>();
         walls = new ArrayList<>();
         wps = new ArrayList<>();
+        spawnwalls(6);
         spawnZombies(1);
         spawnBrutes(0);
         spawnGrunts(0);
-        spawnwalls(5);
 
+        //enemyCounter = zombieNum + bruteNum + gruntNum;
     }
-    /* ~~~~~~~~~~~~~~~~~~~~~~this will be used DO NOT DELETE ~~~~~~~~~~~~~~~~~~~~~~*/
     public WayPoint findWayPoint(int startLocation)
     {
         Iterator<WayPoint> wpi = wps.iterator();
@@ -93,14 +93,20 @@ public class SpawnManager {
             somethingStupid =  findWayPoint(i1+50);
             tempZombie.setWayPointTarget(somethingStupid);
             zombies.add(tempZombie);
+            enemyCounter++;
         }
     }
     public void update()
     {
         for(Zombie zomb : zombies)
         {
-
-            zomb.zombieMove();
+            if(zomb.getlivingStatus()) {
+                zomb.zombieMove();
+            }
+            if(!zomb.getlivingStatus())
+            {
+                zombies.remove(zomb);
+            }
         }
         for(Brute bru : brutes)
         {
@@ -114,6 +120,10 @@ public class SpawnManager {
             // if !zombie.istouching()
 
             gru.gruntMove();
+        }
+        for(wall w: walls)
+        {
+            w.wallMove();
         }
 
 
@@ -149,6 +159,7 @@ public class SpawnManager {
             //System.out.println("Random value: " + i1 + " Const SW: " + Constants.SCREEN_WIDTH + " xStart: " + xStart);
             //System.out.print(xStart);
             brutes.add(new Brute(Color.RED, i1, 20, i1+ 100, 120));
+            enemyCounter++;
 
         }
     }
@@ -164,7 +175,7 @@ public class SpawnManager {
             //System.out.println("Random value: " + i1 + " Const SW: " + Constants.SCREEN_WIDTH + " xStart: " + xStart);
             //System.out.print(xStart);
             grunts.add(new grunt(Color.BLUE,i1, 20, i1+ 100, 120));
-
+            enemyCounter++;
         }
     }
     public void spawnwalls(int wallNum) {

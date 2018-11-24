@@ -6,6 +6,7 @@ public class WayPoint implements  GameObject {
     public int x;
     public int y;
     wall w;
+
     public WayPoint(int x, int y, wall w)
     {
         this.x = x;
@@ -16,6 +17,10 @@ public class WayPoint implements  GameObject {
     {
         this.x = x;
         this.y = y;
+    }
+    public boolean getWallStatus()
+    {
+        return w.alive;
     }
     public int getWayPointX()
     {
