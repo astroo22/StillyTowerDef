@@ -11,8 +11,12 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.firebase.client.Firebase;
+
 
 public class MainActivity extends Activity {
+
+    public Firebase mRef;
 
 
     @Override
@@ -44,15 +48,17 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+
+
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         Constants.SCREEN_WIDTH = dm.widthPixels;
         Constants.SCREEN_HEIGHT = dm.heightPixels;
         //System.out.println("screen W: " + Constants.SCREEN_WIDTH + " Screen H: " + Constants.SCREEN_HEIGHT);
 
+        //setContentView(new LeaderBoard());
 
-
-        setContentView(new GameView(this));
+      //  setContentView(new GameView(this));
 
 
     }

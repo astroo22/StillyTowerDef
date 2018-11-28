@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1071165973365",
+    "firebase_url": "https://stillytower.firebaseio.com",
+    "project_id": "stillytower",
+    "storage_bucket": "stillytower.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071165973365:android:993d388f3e94a293",
+        "android_client_info": {
+          "package_name": "com.example.starkey.stillytowerdef"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071165973365-rk7s3cm2cpnqi6dicq11dm3jhu6vq274.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9fcLq5YNn4VED6otvngpkhq3CMetgKIw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
