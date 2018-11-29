@@ -1,53 +1,148 @@
 package com.example.starkey.stillytowerdef;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.Image;
+import static com.example.starkey.stillytowerdef.MainThread.canvas;
 
 public class Zombie implements GameObject
 {
    private Rect zombie;
    private int currentPos;
+   private int currentPosy;
    private WayPoint wp;
    private int damage;
    private int health;
    private int speed;
    private int color;
    private boolean alive;
+   public int left;
+   public int right;
+   public boolean attack;
    SpawnManager sm;
 
     public Zombie(int color, int left, int top, int right, int bottom)
     {
         //rect = left top right bottom
         this.currentPos = (right -50);
+        this.currentPosy = bottom;
         this.zombie = new Rect(left,top,right,bottom);
         this.damage = 15;
         this.health = 500;
         this.speed = 5;
         this.color = color;
+        this.left = left;
+        this.right = right;
+        this.alive = true;
     }
 
 
     @Override
     public void draw(Canvas canvas)
     {
-        Paint paint = new Paint();
-        paint.setColor(color);
-        canvas.drawRect(zombie,paint);
+        if(alive)
+        {
+            Paint paint = new Paint();
+            paint.setColor(color);
+            canvas.drawRect(zombie,paint);
+        }
+         if(!alive)
+        {
+            // canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.MULTIPLY);
+            Paint paint = new Paint();
+            color = Color.TRANSPARENT;
+            paint.setColor(Color.TRANSPARENT);
+            canvas.drawRect(zombie,paint);
+
+        }
 
     }
     public int getSpeed()
     {
         return speed;
     }
+    public boolean getlivingStatus()
+    {
+        return alive;
+    }
 
     public void zombieMove()
     {
-        walk();
+        if(alive) {
+            if (!attack) {
+                walk();
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~use the below line to test death/removal of object ~~~~~~~~~~~~~~~~~~~
+                //this.health = health-10;
+            }
+            if(attack)
+            {
+               if(wp.getWallStatus())
+               {
+                   attack(wp.getWall());
+               }
+               if(!wp.getWallStatus())
+               {
+                   attack = false;
+                   /* base code 4 after buildings are in game ignore this ~~~~~~~~~~~
+                   int temp = (int)Constants.SCREEN_WIDTH/2;
+                   if(currentPos>temp)
+                   {
+                       if(sm.buildingSpot1Right.getStatus())
+                       {
+                           setWayPointTarget(sm.buildingSpot1Right.getWP());
+                       }
+                       else if(sm.buildingSpot2Right.getStatus())
+                       {
+                           setWayPointTarget(sm.buildingSpot2Right.getWP());
+                       }
+                   }
+                   else if(currentPos<temp)
+                   {
+                       if(sm.buildingSpot1Left.getStatus())
+                       {
+                           setWayPointTarget(sm.buildingSpot1Left.getWP());
+                       }
+                       else if(sm.buildingSpot2Left.getStatus())
+                       {
+                           setWayPointTarget(sm.buildingSpot2Left.getWP());
+                       }
+                   }
+                   if(test)
+                   {
+                       setWayPointTarget(sm.finalWaypoint.getWP);
+                   }
 
+                    */
+               }
+            }
+        }
+        if(health<=0)
+        {
+            this.alive = false;
+            System.out.println("Attempting removal of zombie");
+            sm.zombies.remove(this);
+            sm.enemyCounter--;
+            draw(canvas);
+        }
     }
+    /*
+    public boolean test()
+    {
+        if(!sm.buildingSpot1Right.getStatus()
+                && !sm.buildingSpot2Right.getStatus()
+                && !sm.buildingSpot1Left.getStatus()
+                && !sm.buildingSpot2Left.getStatus())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }*/
     public void setWayPointTarget(WayPoint wp)
     {
         this.wp = wp;
@@ -65,33 +160,47 @@ public class Zombie implements GameObject
                 walkLeft();
             }
         }
-        else
+        if(currentPosy<wp.getWayPointY())
         {
+            //System.out.println(wp.getWayPointY());
+            //currentPos += speed;
             zombie.top += speed;
             zombie.bottom += speed;
+            currentPosy += speed;
+            //System.out.println(currentPosy);
+        }
+        else
+        {
+            System.out.println("ATTACK HAS BEEN SET TO TRUE");
+            attack = true;
         }
     }
     public void walkRight()
     {
         zombie.left += speed - (speed/2);
         zombie.right += speed- (speed/2);
-        currentPos += speed -(speed/2);
-        zombie.top += speed;
-        zombie.bottom +=speed;
+        //zombie.top += speed-(speed/2);
+        //zombie.bottom +=speed -(speed/2);
+        currentPosy = zombie.bottom;
+        currentPos = zombie.right -(zombie.right-zombie.left);
+       // left = zombie.left;
+       // right = zombie.right;
+
     }
     public void walkLeft()
     {
         zombie.left -= speed - (speed/2);
         zombie.right -= speed - (speed/2);
-        currentPos -= speed -(speed/2);
-        zombie.top += speed;
-        zombie.bottom +=speed;
+        //zombie.top += speed-(speed/2);
+        //zombie.bottom +=speed-(speed/2);
+        currentPosy = zombie.bottom;
+        currentPos = zombie.right -(zombie.right-zombie.left);
     }
 
 
     public void attack(wall thing)
     {
-    ;
+        thing.hit(damage);
     }
   /*  public boolean closeToWall()
     {
