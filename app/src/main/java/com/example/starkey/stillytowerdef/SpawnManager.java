@@ -3,21 +3,13 @@ package com.example.starkey.stillytowerdef;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.SystemClock;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import com.example.starkey.stillytowerdef.Brute;
-import com.example.starkey.stillytowerdef.Constants;
-import com.example.starkey.stillytowerdef.Zombie;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import java.math.*;
-
 import static java.lang.Math.abs;
 
 public class SpawnManager {
@@ -31,12 +23,13 @@ public class SpawnManager {
     private ArrayList<grunt> grunts;
     private grunt grunt;
     public ArrayList<wall> walls;
-    public grunt wall;
+    private grunt wall;
     public ArrayList<WayPoint> wps;
     public ArrayAdapter<WayPoint> wpa;
     public WayPoint wp;
     private long startTime;
     public int enemyCounter;
+    public ArrayList<Tower> towers;
 
 
     //will have parameters of level and maybe other things later
@@ -49,55 +42,44 @@ public class SpawnManager {
         grunts = new ArrayList<>();
         walls = new ArrayList<>();
         wps = new ArrayList<>();
+        towers = new ArrayList<>();
         spawnwalls(6);
         spawnZombies(1);
         spawnBrutes(0);
         spawnGrunts(0);
+        spawnTower();
 
-
+        //enemyCounter = zombieNum + bruteNum + gruntNum;
     }
-    /* ~~~~~~~~~~~~~~~~~~~~~~this will be used DO NOT DELETE ~~~~~~~~~~~~~~~~~~~~~~
     public WayPoint findWayPoint(int startLocation)
     {
-        WayPoint tempPoint;
-        tempPoint = wps[0];
-        for(int i = 0;i<wps.size();i++)
-        {
-            if((abs(startLocation - wps[i].getX)) < (abs(startLocation - tempPoint.getWayPointX())))
-            {
-                tempPoint = wps[i];
-            }
-        }
-    }*/
-    //params will be the number of things to be spawned later
-    public WayPoint findWayPoint(int startLocation){
         Iterator<WayPoint> wpi = wps.iterator();
         WayPoint closestWP = wpi.next();
-
+        //System.out.println(closestWP.getWayPointY());
         WayPoint tempWP;
+        //int temp = 20000;
         int holder;
         tempWP = closestWP;
-        int temp = tempWP.getWayPointX();
-        System.out.println("xWP: " + temp+ "StartL:" +startLocation);
+        int temp =  tempWP.getWayPointX();
+        System.out.println("xWP: " + temp+ " StartL: " +startLocation);
         int helper = abs(temp-startLocation);
         holder = helper;
-        while(wpi.hasNext()){
+        while(wpi.hasNext())
+        {
             tempWP = wpi.next();
             temp = tempWP.getWayPointX();
             helper = abs(temp-startLocation);
-            System.out.println("start: " +startLocation+ "helper ="+helper + " x waypoint =" + temp + " Holder = " + holder);
-            if(helper<=holder){
+            System.out.println("start: " +startLocation + "helper ="+helper + " x waypoint =" + temp + " Holder = " + holder);
+            if(helper<=holder)
+            {
+                // System.out.println("waypoint being attached = " +temp);
                 closestWP = tempWP;
                 holder = helper;
             }
         }
         return closestWP;
     }
-
-
-
-
-
+    //params will be the number of things to be spawned later
     public void spawnZombies(int zombieNum)
     {
         //Thread.sleep(mili);
@@ -109,30 +91,25 @@ public class SpawnManager {
         {
             i1 = r.nextInt(max -1)+1;
             //~~~~~~~~~~~~~~~~~~~~ THIS IS A SINGLE EVENT FOR 1 ZOMBIE WE WILL DO THIS IN A LOOP LATER ~~~~~~~~~~~~~~~~
-            WayPoint somethingStupid;// = new WayPoint(700, 700);
+            WayPoint somethingStupid; //= new WayPoint(500, 1350);
             tempZombie = new Zombie(Color.GREEN, i1, 20, i1+ 100, 120);
-            somethingStupid = findWayPoint(i1+50);
+            somethingStupid =  findWayPoint(i1+50);
             tempZombie.setWayPointTarget(somethingStupid);
             zombies.add(tempZombie);
             enemyCounter++;
-
-
-
         }
     }
-
     public void update()
     {
         for(Zombie zomb : zombies)
         {
-            if(zomb.getlivingStatus()){
+            if(zomb.getlivingStatus()) {
                 zomb.zombieMove();
             }
-            if(!zomb.getlivingStatus()){
+            if(!zomb.getlivingStatus())
+            {
                 zombies.remove(zomb);
             }
-
-
         }
         for(Brute bru : brutes)
         {
@@ -147,8 +124,13 @@ public class SpawnManager {
 
             gru.gruntMove();
         }
-        for(wall w: walls){
+        for(wall w: walls)
+        {
             w.wallMove();
+        }
+        for(Tower t: towers)
+        {
+            t.towerMove();
         }
 
 
@@ -171,6 +153,10 @@ public class SpawnManager {
         for(wall w1: walls)
         {
             w1.draw(canvas);
+        }
+        for(Tower t: towers)
+        {
+            t.draw(canvas);
         }
     }
     public void spawnBrutes(int bruteNum) {
@@ -201,13 +187,10 @@ public class SpawnManager {
             //System.out.print(xStart);
             grunts.add(new grunt(Color.BLUE,i1, 20, i1+ 100, 120));
             enemyCounter++;
-
         }
     }
     public void spawnwalls(int wallNum) {
-        //Thread.sleep(mili);
         Random r = new Random();
-        //int max = Constants.SCREEN_WIDTH - 10;
         int leftSide = 0;
         double bottom = Constants.SCREEN_HEIGHT - (Constants.SCREEN_HEIGHT*.25);
         double location = Constants.SCREEN_HEIGHT*.07;
@@ -217,20 +200,35 @@ public class SpawnManager {
         for (int i = 0; i < wallNum; i++)
         {
             tempWall = new wall(Color.BLACK, leftSide, (int)bottom,  leftSide+250,  (int)(bottom + location), i);
-            if(i == 1|| i == 3 || i == 2 )
+            //System.out.println("Hit " +i);
+            if(i == 1|| i == 3 || i== 2)
             {
                 tempWayPoint = new WayPoint(leftSide, (int)bottom, tempWall);
-                System.out.println("WP Location ~left side"+ leftSide + "Botton:" + (int)bottom);
+                System.out.println("WP Location ~left side:"+ leftSide + " Bottom:" + (int)bottom);
                 wps.add(tempWayPoint);
+                // System.out.println("leftside=" + leftSide + " bottom=" + (int)bottom);
             }
             walls.add(tempWall);
             leftSide += 250;
-
         }
+
+
     }
 
-}
+    public void spawnTower ()
+    {
+        int leftSide = 0;
+        double bottom = Constants.SCREEN_WIDTH - (Constants.SCREEN_WIDTH*.2);
+        double location = Constants.SCREEN_HEIGHT*.04;
+        System.out.println("B" + bottom + "L"+location);
+        //public BulletTower(ArrayList<GameObject> enemies, int x, int y, AssetManager manager)
+        BulletTower bt = new BulletTower(zombies, (int)location, (int)bottom);
+        towers.add(bt);
+    }
 
+
+
+}
 
 
 
