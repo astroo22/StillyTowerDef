@@ -30,10 +30,22 @@ public class SpawnManager {
     private long startTime;
     public int enemyCounter;
     public ArrayList<Tower> towers;
+    public boolean levelComplete;
+    int levelCounter;
+    int zombieNum;
+    int bruteNum;
+    int gruntNum;
+    public boolean lostgame;
+    private final long PERIOD = 1000L;
+    int numberSpawned;
+    public boolean spawnfinished;
+    public int max = Constants.SCREEN_WIDTH-10;
+    public int i1;
+    public Random r;
 
 
     //will have parameters of level and maybe other things later
-    public SpawnManager()
+    public SpawnManager(int zombieNum, int bruteNum, int gruntNum)
     {
 
         startTime = System.currentTimeMillis();
@@ -44,10 +56,21 @@ public class SpawnManager {
         wps = new ArrayList<>();
         towers = new ArrayList<>();
         spawnwalls(6);
-        spawnZombies(1);
-        spawnBrutes(0);
-        spawnGrunts(0);
+        //spawnZombies(zombieNum);
+        //spawnBrutes(bruteNum);
+        //spawnGrunts(gruntNum);
         spawnTower();
+        levelComplete = false;
+        levelCounter++;
+        this.zombieNum = zombieNum;
+        this.bruteNum = bruteNum;
+        this.gruntNum = gruntNum;
+        this.enemyCounter = zombieNum+bruteNum+gruntNum-1;
+        lostgame = false;
+        spawnfinished = false;
+        //int max = Constants.SCREEN_WIDTH -10;
+        this.r = new Random();
+        this.i1 = r.nextInt(max -1)+1;
 
         //enemyCounter = zombieNum + bruteNum + gruntNum;
     }
@@ -79,63 +102,128 @@ public class SpawnManager {
         }
         return closestWP;
     }
+    public void onTick(int temp)
+    {
+        long thisTime = System.currentTimeMillis();
+        Random rr = new Random();
+       // int test = rr.nextInt(3-1)+1;
+        int test =1;
+        int i1 = temp;
+        if((thisTime-startTime) >= PERIOD)
+        {
+            startTime = thisTime;
+            if(numberSpawned < enemyCounter)
+            {
+                if(test ==1);
+                {
+                    spawnZombies(i1);
+                    numberSpawned++;
+                }
+            }
+            else
+            {
+                spawnfinished=true;
+            }
+        }
+    }
     //params will be the number of things to be spawned later
     public void spawnZombies(int zombieNum)
     {
         //Thread.sleep(mili);
-        Random r = new Random();
+       // Random r = new Random();
         Zombie tempZombie;
-        int max = Constants.SCREEN_WIDTH -10;
-        int i1 = r.nextInt(max -1)+1;
-        for(int i=0;i<zombieNum;i++)
-        {
-            i1 = r.nextInt(max -1)+1;
+
+        int i1 = zombieNum;
+       // for(int i=0;i<zombieNum;i++)
+        //{
+           // i1 = r.nextInt(max -1)+1;
             //~~~~~~~~~~~~~~~~~~~~ THIS IS A SINGLE EVENT FOR 1 ZOMBIE WE WILL DO THIS IN A LOOP LATER ~~~~~~~~~~~~~~~~
             WayPoint somethingStupid; //= new WayPoint(500, 1350);
             tempZombie = new Zombie(Color.GREEN, i1, 20, i1+ 100, 120);
             somethingStupid =  findWayPoint(i1+50);
             tempZombie.setWayPointTarget(somethingStupid);
             zombies.add(tempZombie);
-            enemyCounter++;
-        }
+
+        //}
     }
+    public void newLevel(int zombieNum, int bruteNum, int gruntNum)
+    {
+        spawnwalls(6);
+        spawnZombies(zombieNum);
+        spawnBrutes(bruteNum);
+        spawnGrunts(gruntNum);
+        spawnTower();
+        levelComplete = false;
+        levelCounter++;
+        this.zombieNum = zombieNum;
+        this.bruteNum = bruteNum;
+        this.gruntNum = gruntNum;
+        this.enemyCounter = zombieNum+bruteNum+gruntNum-1;
+        numberSpawned = 0;
+        spawnfinished = false;
+    }
+
     public void update()
     {
-        for(Zombie zomb : zombies)
+        if(levelComplete)
         {
-            if(zomb.getlivingStatus()) {
-                zomb.zombieMove();
-            }
-            if(!zomb.getlivingStatus())
+            System.out.println("level complete");
+            System.out.println("Starting new level");
+            System.out.println("Starting level: " + levelCounter);
+            newLevel(zombieNum*2, bruteNum*2,gruntNum*2);
+        }
+        if(!spawnfinished)
+        {
+            this.i1 = r.nextInt(max -1)+1;
+            onTick(i1);
+        }
+        if(!lostgame)
+        {
+            for(Zombie zomb : zombies)
             {
-                zombies.remove(zomb);
+                if(zomb.getlivingStatus()) {
+                    zomb.zombieMove();
+                }
+                if(!zomb.getlivingStatus())
+                {
+                    zombies.remove(zomb);
+                    enemyCounter--;
+                    numberSpawned--;
+                    System.out.println(enemyCounter);
+                }
+                if(zomb.getCurrentPointY()>=Constants.SCREEN_HEIGHT)
+                {
+                    lostgame=true;
+                    System.out.println("Lost game");
+                }
+            }
+            for(Brute bru : brutes)
+            {
+                // if !zombie.istouching()
+
+                bru.bruteMove();
+            }
+
+            for(grunt gru : grunts)
+            {
+                // if !zombie.istouching()
+
+                gru.gruntMove();
+            }
+            for(wall w: walls)
+            {
+                w.wallMove();
+            }
+            for(Tower t: towers)
+            {
+                t.towerMove();
+            }
+            if(enemyCounter == 0)
+            {
+                levelComplete = true;
             }
         }
-        for(Brute bru : brutes)
-        {
-            // if !zombie.istouching()
-
-            bru.bruteMove();
-        }
-
-        for(grunt gru : grunts)
-        {
-            // if !zombie.istouching()
-
-            gru.gruntMove();
-        }
-        for(wall w: walls)
-        {
-            w.wallMove();
-        }
-        for(Tower t: towers)
-        {
-            t.towerMove();
-        }
-
-
     }
-
     public void draw(Canvas canvas)
     {
         for(Zombie zomb: zombies)
@@ -211,8 +299,6 @@ public class SpawnManager {
             walls.add(tempWall);
             leftSide += 250;
         }
-
-
     }
 
     public void spawnTower ()
@@ -225,9 +311,6 @@ public class SpawnManager {
         BulletTower bt = new BulletTower(zombies, (int)location, (int)bottom);
         towers.add(bt);
     }
-
-
-
 }
 
 

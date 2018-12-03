@@ -23,6 +23,8 @@ public class Zombie implements GameObject
    public int right;
    public boolean attack;
    SpawnManager sm;
+   public final Long period = 3000L;
+   public long startTime;
 
     public Zombie(int color, int left, int top, int right, int bottom)
     {
@@ -30,16 +32,15 @@ public class Zombie implements GameObject
         this.currentPos = (right -50);
         this.currentPosy = bottom;
         this.zombie = new Rect(left,top,right,bottom);
-        this.damage = 15;
+        this.damage = 50;
         this.health = 500;
         this.speed = 5;
         this.color = color;
         this.left = left;
         this.right = right;
         this.alive = true;
+        this.startTime = System.currentTimeMillis()-period;
     }
-
-
     @Override
     public void draw(Canvas canvas)
     {
@@ -75,17 +76,23 @@ public class Zombie implements GameObject
             if (!attack) {
                 walk();
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~use the below line to test death/removal of object ~~~~~~~~~~~~~~~~~~~
-                //this.health = health-10;
+                //this.health = health-2;
             }
             if(attack)
             {
                if(wp.getWallStatus())
                {
-                   attack(wp.getWall());
+                   long thisTime = System.currentTimeMillis();
+                   if((thisTime-startTime)>=period)
+                   {
+                       startTime=thisTime;
+                       attack(wp.getWall());
+                   }
                }
                if(!wp.getWallStatus())
                {
                    attack = false;
+                    setWayPointTarget(new WayPoint(getCurrentPointX(),10000));
                    /* base code 4 after buildings are in game ignore this ~~~~~~~~~~~
                    int temp = (int)Constants.SCREEN_WIDTH/2;
                    if(currentPos>temp)
@@ -146,6 +153,14 @@ public class Zombie implements GameObject
     public void setWayPointTarget(WayPoint wp)
     {
         this.wp = wp;
+    }
+    public int getCurrentPointY()
+    {
+        return currentPosy;
+    }
+    public int getCurrentPointX()
+    {
+        return currentPos;
     }
     public void walk()
     {
