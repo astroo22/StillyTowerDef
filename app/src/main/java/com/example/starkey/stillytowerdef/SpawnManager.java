@@ -45,12 +45,19 @@ public class SpawnManager extends AppCompatActivity {
     public int i1;
     public Random r;
     TextView currency;
+    MainThread thread;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spawn_manager);
         //currency = findViewById(R.id.)
+    }
+
+
+    public void giveThread(MainThread thread)
+    {
+        this.thread = thread;
     }
 
     //will have parameters of level and maybe other things later

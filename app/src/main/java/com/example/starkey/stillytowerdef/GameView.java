@@ -33,6 +33,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
        // spawnZombie();
         sm = new SpawnManager();
+        sm.giveThread(thread);
         setFocusable(true);
     }
 
@@ -52,7 +53,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
-        while (true) {
+        while (retry) {
             try {
                 thread.setRunning(false);
                 thread.join();
