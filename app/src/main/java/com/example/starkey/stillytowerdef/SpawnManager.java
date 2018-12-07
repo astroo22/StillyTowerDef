@@ -279,8 +279,9 @@ public class SpawnManager extends AppCompatActivity {
                 levelComplete = true;
             }
         }
-        if(lostgame == true)
+        if(lostgame)
         {
+           // thread.setRunning(false);
             openDialog();
         }
 

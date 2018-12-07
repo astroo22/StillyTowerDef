@@ -50,10 +50,10 @@ public class spinner extends Activity implements OnItemSelectedListener{
         //SurfaceHolder surfaceHolder = ;
         if (requestCode == 1) {
             if(resultCode == SpawnManager.RESULT_OK){
-                Canvas canvas;
+
                 System.out.println("got here??????");
                 Toast.makeText(this, "User Finished Game", Toast.LENGTH_SHORT).show();
-                setContentView(R.layout.activity_spinner);
+                setContentView(R.layout.activity_popup_score);
 
 
             }

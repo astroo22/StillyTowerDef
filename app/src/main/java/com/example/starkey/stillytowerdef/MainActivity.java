@@ -37,9 +37,23 @@ public class MainActivity extends Activity {
         //System.out.println("screen W: " + Constants.SCREEN_WIDTH + " Screen H: " + Constants.SCREEN_HEIGHT);
         setContentView(new GameView(this));
             }
+    @Override
+    public void onBackPressed()
+    {
+
+        Intent i = new Intent(MainActivity.this,spinner.class);
+        setResult(SpawnManager.RESULT_CANCELED, i);
+        //setResult(SpawnManager.RESULT_OK);
+        System.out.println("got here??????");
+        System.out.println("got here??????");
+        startActivity(i);
+        finish();
+        super.onBackPressed();
+    }
 
 
     }
+
 
 
 
