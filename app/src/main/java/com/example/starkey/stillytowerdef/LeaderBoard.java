@@ -11,11 +11,14 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LeaderBoard extends AppCompatActivity {
 
@@ -39,8 +42,9 @@ public class LeaderBoard extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         mRef = new Firebase("https://stillytower.firebaseio.com/Users");
 
+        final Query qRef = mRef.orderByChild("hiscore").limitToFirst(10);
 
-        mRef.addValueEventListener(new ValueEventListener() {
+        qRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> names = new ArrayList<>();
@@ -49,7 +53,7 @@ public class LeaderBoard extends AppCompatActivity {
                     String hiscore = ds.child("HighScore").getValue(String.class);
                     int counter = 0;
 
-                    mUsernames.add((counter+1 + " ") + username + ": " +  hiscore);
+                    mUsernames.add(username + ": " +  hiscore);
                     arrayAdapter.notifyDataSetChanged();
 
 
