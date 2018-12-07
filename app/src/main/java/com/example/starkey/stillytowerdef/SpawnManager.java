@@ -3,7 +3,9 @@ package com.example.starkey.stillytowerdef;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
@@ -12,15 +14,15 @@ import java.util.Random;
 import java.math.*;
 import static java.lang.Math.abs;
 
-public class SpawnManager {
+public class SpawnManager extends AppCompatActivity {
     //ArrayAdapter ad ~~~~~~~~~~~~~~~~~~~~~do this look at to do
     public ArrayList<Zombie> zombies;
     private TextView tv;
     private ArrayAdapter<Zombie> adapZomb;
     private Zombie zombie;
-    private ArrayList<Brute> brutes;
+    public ArrayList<Brute> brutes;
     private Brute brute;
-    private ArrayList<grunt> grunts;
+    public ArrayList<grunt> grunts;
     private grunt grunt;
     public ArrayList<wall> walls;
     private grunt wall;
@@ -43,6 +45,12 @@ public class SpawnManager {
     public int i1;
     public Random r;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        
+    }
 
     //will have parameters of level and maybe other things later
     public SpawnManager(int zombieNum, int bruteNum, int gruntNum)
@@ -106,17 +114,27 @@ public class SpawnManager {
     {
         long thisTime = System.currentTimeMillis();
         Random rr = new Random();
-       // int test = rr.nextInt(3-1)+1;
-        int test =1;
+        int test = rr.nextInt(3-1)+1;
+        //int test =1;
         int i1 = temp;
         if((thisTime-startTime) >= PERIOD)
         {
             startTime = thisTime;
             if(numberSpawned < enemyCounter)
             {
-                if(test ==1);
+                if(test ==1)
                 {
                     spawnZombies(i1);
+                    numberSpawned++;
+                }
+                if(test ==2)
+                {
+                    spawnBrutes(i1);
+                    numberSpawned++;
+                }
+                if(test ==3)
+                {
+                    spawnGrunts(i1);
                     numberSpawned++;
                 }
             }
@@ -130,19 +148,19 @@ public class SpawnManager {
     public void spawnZombies(int zombieNum)
     {
         //Thread.sleep(mili);
-       // Random r = new Random();
+        // Random r = new Random();
         Zombie tempZombie;
 
         int i1 = zombieNum;
-       // for(int i=0;i<zombieNum;i++)
+        // for(int i=0;i<zombieNum;i++)
         //{
-           // i1 = r.nextInt(max -1)+1;
-            //~~~~~~~~~~~~~~~~~~~~ THIS IS A SINGLE EVENT FOR 1 ZOMBIE WE WILL DO THIS IN A LOOP LATER ~~~~~~~~~~~~~~~~
-            WayPoint somethingStupid; //= new WayPoint(500, 1350);
-            tempZombie = new Zombie(Color.GREEN, i1, 20, i1+ 100, 120);
-            somethingStupid =  findWayPoint(i1+50);
-            tempZombie.setWayPointTarget(somethingStupid);
-            zombies.add(tempZombie);
+        // i1 = r.nextInt(max -1)+1;
+        //~~~~~~~~~~~~~~~~~~~~ THIS IS A SINGLE EVENT FOR 1 ZOMBIE WE WILL DO THIS IN A LOOP LATER ~~~~~~~~~~~~~~~~
+        WayPoint somethingStupid; //= new WayPoint(500, 1350);
+        tempZombie = new Zombie(Color.GREEN, i1, 20, i1+ 100, 120);
+        somethingStupid =  findWayPoint(i1+50);
+        tempZombie.setWayPointTarget(somethingStupid);
+        zombies.add(tempZombie);
 
         //}
     }
@@ -199,16 +217,44 @@ public class SpawnManager {
             }
             for(Brute bru : brutes)
             {
-                // if !zombie.istouching()
-
-                bru.bruteMove();
+                {
+                    if(bru.getlivingStatus()) {
+                        bru.bruteMove();
+                    }
+                    if(!bru.getlivingStatus())
+                    {
+                        brutes.remove(bru);
+                        enemyCounter--;
+                        numberSpawned--;
+                        System.out.println(enemyCounter);
+                    }
+                    if(bru.getCurrentPointY()>=Constants.SCREEN_HEIGHT)
+                    {
+                        lostgame=true;
+                        System.out.println("Lost game");
+                    }
+                }
             }
 
             for(grunt gru : grunts)
             {
-                // if !zombie.istouching()
-
-                gru.gruntMove();
+                {
+                    if(gru.getlivingStatus()) {
+                        gru.gruntMove();
+                    }
+                    if(!gru.getlivingStatus())
+                    {
+                        grunts.remove(gru);
+                        enemyCounter--;
+                        numberSpawned--;
+                        System.out.println(enemyCounter);
+                    }
+                    if(gru.getCurrentPointY()>=Constants.SCREEN_HEIGHT)
+                    {
+                        lostgame=true;
+                        System.out.println("Lost game");
+                    }
+                }
             }
             for(wall w: walls)
             {
@@ -247,37 +293,47 @@ public class SpawnManager {
             t.draw(canvas);
         }
     }
-    public void spawnBrutes(int bruteNum) {
+    public void spawnBrutes(int zombieNum)
+    {
         //Thread.sleep(mili);
-        Random r = new Random();
-        int max = Constants.SCREEN_WIDTH - 10;
-        int i1 = r.nextInt(max - 1) + 1;
-        for (int i = 0; i < bruteNum; i++) {
-            i1 = r.nextInt(max - 1) + 1;
+        // Random r = new Random();
+        Brute tempZombie;
 
-            //System.out.println("Random value: " + i1 + " Const SW: " + Constants.SCREEN_WIDTH + " xStart: " + xStart);
-            //System.out.print(xStart);
-            brutes.add(new Brute(Color.RED, i1, 20, i1+ 100, 120));
-            enemyCounter++;
+        int i1 = zombieNum;
+        // for(int i=0;i<zombieNum;i++)
+        //{
+        // i1 = r.nextInt(max -1)+1;
+        //~~~~~~~~~~~~~~~~~~~~ THIS IS A SINGLE EVENT FOR 1 ZOMBIE WE WILL DO THIS IN A LOOP LATER ~~~~~~~~~~~~~~~~
+        WayPoint somethingStupid; //= new WayPoint(500, 1350);
+        tempZombie = new Brute(Color.RED, i1, 20, i1+ 100, 120);
+        somethingStupid =  findWayPoint(i1+50);
+        tempZombie.setWayPointTarget(somethingStupid);
+        brutes.add(tempZombie);
 
-        }
+        //}
     }
 
-    public void spawnGrunts(int gruntNum) {
+    public void spawnGrunts(int zombieNum)
+    {
         //Thread.sleep(mili);
-        Random r = new Random();
-        int max = Constants.SCREEN_WIDTH - 10;
-        int i1 = r.nextInt(max - 1) + 1;
-        for (int i = 0; i < gruntNum; i++) {
-            i1 = r.nextInt(max - 1) + 1;
+        // Random r = new Random();
+        grunt tempZombie;
 
-            //System.out.println("Random value: " + i1 + " Const SW: " + Constants.SCREEN_WIDTH + " xStart: " + xStart);
-            //System.out.print(xStart);
-            grunts.add(new grunt(Color.BLUE,i1, 20, i1+ 100, 120));
-            enemyCounter++;
-        }
+        int i1 = zombieNum;
+        // for(int i=0;i<zombieNum;i++)
+        //{
+        // i1 = r.nextInt(max -1)+1;
+        //~~~~~~~~~~~~~~~~~~~~ THIS IS A SINGLE EVENT FOR 1 ZOMBIE WE WILL DO THIS IN A LOOP LATER ~~~~~~~~~~~~~~~~
+        WayPoint somethingStupid; //= new WayPoint(500, 1350);
+        tempZombie = new grunt(Color.BLUE, i1, 20, i1+ 100, 120);
+        somethingStupid =  findWayPoint(i1+50);
+        tempZombie.setWayPointTarget(somethingStupid);
+        grunts.add(tempZombie);
+
+        //}
     }
-    public void spawnwalls(int wallNum) {
+    public void spawnwalls(int wallNum)
+    {
         Random r = new Random();
         int leftSide = 0;
         double bottom = Constants.SCREEN_HEIGHT - (Constants.SCREEN_HEIGHT*.25);
@@ -312,8 +368,3 @@ public class SpawnManager {
         towers.add(bt);
     }
 }
-
-
-
-
-

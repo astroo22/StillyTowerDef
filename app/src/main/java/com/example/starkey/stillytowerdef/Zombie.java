@@ -34,7 +34,7 @@ public class Zombie implements GameObject
         this.zombie = new Rect(left,top,right,bottom);
         this.damage = 50;
         this.health = 500;
-        this.speed = 5;
+        this.speed = 3;
         this.color = color;
         this.left = left;
         this.right = right;
@@ -76,7 +76,7 @@ public class Zombie implements GameObject
             if (!attack) {
                 walk();
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~use the below line to test death/removal of object ~~~~~~~~~~~~~~~~~~~
-                //this.health = health-2;
+                //this.health = health-3;
             }
             if(attack)
             {
