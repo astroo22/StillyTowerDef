@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -42,7 +43,26 @@ public class spinner extends Activity implements OnItemSelectedListener{
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //MainActivity ma = MainActivity.instance;
 
+        //SurfaceHolder surfaceHolder = ;
+        if (requestCode == 1) {
+            if(resultCode == SpawnManager.RESULT_OK){
+                Canvas canvas;
+                System.out.println("got here??????");
+                Toast.makeText(this, "User Finished Game", Toast.LENGTH_SHORT).show();
+                setContentView(R.layout.activity_spinner);
+
+
+            }
+            if (resultCode == SpawnManager.RESULT_CANCELED) {
+
+                Toast.makeText(this, "User Left Mid-Game", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
@@ -56,8 +76,8 @@ public class spinner extends Activity implements OnItemSelectedListener{
 
         switch(position) {
             case 1:
-                intent = new Intent(spinner.this, MainActivity.class);
-                startActivity(intent);
+                Intent i = new Intent (getApplicationContext(), MainActivity.class);
+                startActivityForResult(i,1);
                 break;
             case 2:
                 intent = new Intent(spinner.this, LeaderBoard.class);
@@ -70,14 +90,14 @@ public class spinner extends Activity implements OnItemSelectedListener{
 
 
 
-        }
+    }
 
 
 
 
 
 
-        //Intent l = new Intent(this,MainActivity.class);
+    //Intent l = new Intent(this,MainActivity.class);
 
 
 

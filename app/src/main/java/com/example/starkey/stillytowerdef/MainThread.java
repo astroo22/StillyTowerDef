@@ -10,7 +10,7 @@ public class MainThread extends Thread {
     public static Canvas canvas;
 
 
-    
+
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView){
         super();
         this.surfaceHolder = surfaceHolder;
@@ -35,16 +35,18 @@ public class MainThread extends Thread {
                     this.gameView.draw(canvas);
                 }
             } catch (Exception e){
-        }
-        finally{
+            }
+            finally{
                 if(canvas!=null)
                 {
                     try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
+                        //System.out.println("did it work?");
                     }
                     catch(Exception e){e.printStackTrace();}
                 }
             }
+
             timeMillis = (System.nanoTime() - startTime)/1000000;
             waitTime = targetTime - timeMillis;
             try{
@@ -56,12 +58,21 @@ public class MainThread extends Thread {
             totalTime += System.nanoTime() - startTime;
             frameCount++;
             if(frameCount == MAX_FPS) {
-            averageFPS = 1000/((totalTime/frameCount)/1000000);
-            frameCount = 0;
-            totalTime = 0;
-            System.out.println(averageFPS);
+                averageFPS = 1000/((totalTime/frameCount)/1000000);
+                frameCount = 0;
+                totalTime = 0;
+                System.out.println(averageFPS);
             }
+        }
     }
+    // @Override
+    public void onBackPressed() {
+        //
+        //this.interrupt();
+        setRunning(false);
+        this.interrupt();
+        //surfaceHolder.unlockCanvasAndPost(canvas);
+        //super.onBackPressed();
     }
     public void setRunning(boolean running){this.running = running;}
 }
