@@ -49,7 +49,7 @@ public class SpawnManager extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.spawn_manager);
+        //setContentView(R.layout.spawn_manager);
         //currency = findViewById(R.id.)
     }
 
@@ -272,6 +272,11 @@ public class SpawnManager extends AppCompatActivity {
                 levelComplete = true;
             }
         }
+        if(lostgame == true)
+        {
+            openDialog();
+        }
+
     }
     public void draw(Canvas canvas)
     {
@@ -370,4 +375,11 @@ public class SpawnManager extends AppCompatActivity {
         BulletTower bt = new BulletTower(zombies, (int)location, (int)bottom);
         towers.add(bt);
     }
+    public void openDialog() {
+
+        PopupScore popup = new PopupScore();
+        popup.onCreateDialog();
+
+    }
+
 }

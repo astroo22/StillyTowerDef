@@ -19,10 +19,8 @@
             android:label="LeaderBoard"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".SpawnManager"></activity>
-        <activity android:name=".Menu">
 
-        </activity>
-
+        
         <activity
             android:name=".spinner"
             android:label="@string/title_activity_spinner"
@@ -33,6 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PopupScore"></activity>
     </application>
 
 </manifest>
