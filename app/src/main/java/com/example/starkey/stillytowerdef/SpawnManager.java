@@ -44,18 +44,21 @@ public class SpawnManager extends AppCompatActivity {
     public int max = Constants.SCREEN_WIDTH-10;
     public int i1;
     public Random r;
-
+    TextView currency;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
+        setContentView(R.layout.spawn_manager);
+        //currency = findViewById(R.id.)
     }
 
     //will have parameters of level and maybe other things later
-    public SpawnManager(int zombieNum, int bruteNum, int gruntNum)
+    public SpawnManager()
     {
-
+        int zombieNum = 3;
+        int bruteNum =3;
+        int gruntNum=3;
         startTime = System.currentTimeMillis();
         zombies = new ArrayList<>();
         brutes = new ArrayList<>();
@@ -114,7 +117,7 @@ public class SpawnManager extends AppCompatActivity {
     {
         long thisTime = System.currentTimeMillis();
         Random rr = new Random();
-        int test = rr.nextInt(3-1)+1;
+        int test = rr.nextInt(4-1)+1;
         //int test =1;
         int i1 = temp;
         if((thisTime-startTime) >= PERIOD)

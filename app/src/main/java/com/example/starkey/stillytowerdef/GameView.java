@@ -32,7 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
        // spawnZombie();
-        sm = new SpawnManager(5,0,0);
+        sm = new SpawnManager();
         setFocusable(true);
     }
 

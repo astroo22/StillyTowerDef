@@ -18,6 +18,7 @@
             android:name=".LeaderBoard"
             android:label="LeaderBoard"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".SpawnManager"></activity>
         <activity android:name=".Menu">
 
         </activity>
