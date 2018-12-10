@@ -20,16 +20,11 @@ import com.firebase.client.Firebase;
 
 
 public class MainActivity extends Activity {
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         Constants.SCREEN_WIDTH = dm.widthPixels;
@@ -40,19 +35,13 @@ public class MainActivity extends Activity {
     @Override
     public void onBackPressed()
     {
-
         Intent i = new Intent(MainActivity.this,spinner.class);
         setResult(SpawnManager.RESULT_CANCELED, i);
-        //setResult(SpawnManager.RESULT_OK);
-        System.out.println("got here??????");
-        System.out.println("got here??????");
         startActivity(i);
         finish();
         super.onBackPressed();
     }
-
-
-    }
+}
 
 
 

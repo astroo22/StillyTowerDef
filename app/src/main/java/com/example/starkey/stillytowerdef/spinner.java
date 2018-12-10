@@ -87,31 +87,8 @@ public class spinner extends Activity implements OnItemSelectedListener{
 
                 System.exit(0);
         }
-
-
-
     }
-
-
-
-
-
-
     //Intent l = new Intent(this,MainActivity.class);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
     }

@@ -89,8 +89,6 @@ public class SpawnManager extends AppCompatActivity {
         //int max = Constants.SCREEN_WIDTH -10;
         this.r = new Random();
         this.i1 = r.nextInt(max -1)+1;
-
-        //enemyCounter = zombieNum + bruteNum + gruntNum;
     }
     public WayPoint findWayPoint(int startLocation)
     {
@@ -282,7 +280,7 @@ public class SpawnManager extends AppCompatActivity {
         if(lostgame)
         {
            // thread.setRunning(false);
-            openDialog();
+           // openDialog();
         }
 
     }
